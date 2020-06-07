@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "YQM3DownLoad"
-  s.version      = "1.0.3"
+  s.version      = "1.0.4"
   s.summary      = "m3u8 downloader"
 
   # This description is used to generate tags and improve search results.
@@ -95,7 +95,6 @@ Pod::Spec.new do |s|
   s.source_files  = "Classes/m3u8/*.{h,m}", "Classes/m3u8/**/*.{h,m}"
   # s.exclude_files = "Classes/Exclude"
 
-  s.public_header_files = "Classes/m3u8/*.{h}"
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
