@@ -16,8 +16,8 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "YQM3DownLoad"
-  s.version      = "1.0.6"
-  s.summary      = "m3u8 downloader"
+  s.version      = "1.0.7"
+  s.summary      = "m3 downloader"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -134,6 +134,6 @@ Pod::Spec.new do |s|
 
   s.xcconfig = { "HEADER_SEARCH_PATHS" => ["${PODS_ROOT}/AFNetworking/AFNetworking","${PODS_ROOT}/GCDWebServer/GCDWebServer/Core","${SRCRoot}/Classes/m3u8/*"] }
   # s.dependency "JSONKit", "~> 1.4"
-   s.dependency "AFNetworking", "~> 3.0"
+   s.dependency "AFNetworking", "~> 4.0"
    s.dependency "GCDWebServer", "~> 3.5.3"
 end

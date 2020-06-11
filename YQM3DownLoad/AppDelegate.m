@@ -17,6 +17,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSInteger failedCount=100;
+    NSString * str= [NSString stringWithFormat:@"file download count is %d",failedCount];
+    NSLog(@"%@",str);
     return YES;
 }
 
