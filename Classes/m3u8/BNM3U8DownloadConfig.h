@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger maxConcurrenceCount;
 @property (nonatomic, copy) NSString *localhost;
 @property (nonatomic,assign)NSInteger minTsDownErrorCount;
+@property(nonatomic,strong) NSDictionary *headerDic;
 @end
 
 NS_ASSUME_NONNULL_END

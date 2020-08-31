@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *relativeUrl;//相对路径
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, copy) NSString *diskPath;
+@property(nonatomic,strong) NSDictionary *headerDic;
 @property (nonatomic, assign,getter = isHasDiscontiunity) BOOL hasDiscontiunity;
 @end
 

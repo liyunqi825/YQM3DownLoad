@@ -16,5 +16,8 @@
 - (NSString *)dstFilePath{
     return _diskPath;
 }
+-(NSDictionary *)downLoadHeader{
+    return _headerDic;;
+}
 @end
 

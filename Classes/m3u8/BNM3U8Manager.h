@@ -43,15 +43,13 @@ typedef void(^BNM3U8DownloadProgressBlock)(CGFloat progress,NSString *url);
  */
 - (void)downloadVideoWithConfig:(BNM3U8DownloadConfig *)config progressBlock:(BNM3U8DownloadProgressBlock)progressBlock resultBlock:(BNM3U8DownloadResultBlock)resultBlock;
 
-/*取消某个下载operation。找到对应的operation并 执行他的cannel方法
- */
 - (void)cannel:(NSString *)url;
 
-/*全部取消,遍历operation cnnel. queue的cannel all operation 只能在创建/重新创建或者 dealloc时执行*/
 - (void)cancelAll;
 
-/*已发起的不能挂起*/
 - (void)suspend;
+
+- (void)resume;
 
 /*是否存在任务*/
 -(bool)hasTask:(NSString *)url;

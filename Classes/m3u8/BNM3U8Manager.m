@@ -95,13 +95,10 @@
     UNLOCK(_operationSemaphore);
 }
 
-/*取消某个下载operation。找到对应的operation并 执行他的cannel方法，queue不提供对单个operation的取消处理，相应的queue提供全局的取消处理
- */
 - (void)cannel:(NSString *)url{
     [self _cannel:url];
 }
 
-///unsafe thread
 - (void)_cannel:(NSString *)url{
     LOCK(_operationSemaphore);
     BNM3U8DownloadOperation *operation = [_downloadOperationsMap valueForKey:url];
@@ -109,15 +106,12 @@
     if(!operation)return;
     NSParameterAssert(operation);
     if (!operation.isCancelled) {
-#pragma TODO:
-        ///cannel,if call the callbackBlock? and how its action in de operation queue??
         [operation cancel];
     }
     ///remove
     LOCK(_operationSemaphore);
     [_downloadOperationsMap removeObjectForKey:url];
     UNLOCK(_operationSemaphore);
-     NSLog(@"取消任务Manager");
 }
 
 /*全部取消,遍历operation cnnel. queue的cannel all operation 只能在创建/重新创建或者 dealloc时执行*/
@@ -130,14 +124,26 @@
     }];
 }
 
-/*queue 能实现，发起的不能挂起*/
 - (void)suspend{
-    _downloadQueue.suspended = !_downloadQueue.suspended;
+    if(_downloadQueue.suspended) return;
+    _downloadQueue.suspended = YES;
     LOCK(_operationSemaphore);
     NSArray *urls = _downloadOperationsMap.allKeys;
     [urls enumerateObjectsUsingBlock:^(NSString * _Nonnull url, NSUInteger idx, BOOL * _Nonnull stop) {
         BNM3U8DownloadOperation *operation = [self.downloadOperationsMap valueForKey:url];
-        operation.suspend = self.downloadQueue.suspended;
+        [operation suspend];
+    }];
+    UNLOCK(_operationSemaphore);
+}
+
+- (void)resume{
+    if(!_downloadQueue.suspended) return;
+    _downloadQueue.suspended = NO;
+    LOCK(_operationSemaphore);
+    NSArray *urls = _downloadOperationsMap.allKeys;
+    [urls enumerateObjectsUsingBlock:^(NSString * _Nonnull url, NSUInteger idx, BOOL * _Nonnull stop) {
+        BNM3U8DownloadOperation *operation = [self.downloadOperationsMap valueForKey:url];
+        [operation resume];
     }];
     UNLOCK(_operationSemaphore);
 }
@@ -146,7 +152,6 @@
 {
     if (!_sessionManager) {
         _sessionManager = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        //// should create customer queue
         _sessionManager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     }
     return _sessionManager;

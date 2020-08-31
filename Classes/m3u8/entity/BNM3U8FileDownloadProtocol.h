@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @required
 - (NSString *)downloadUrl;
 - (NSString *)dstFilePath;
+- (NSDictionary *)downLoadHeader;
 @end
 
 NS_ASSUME_NONNULL_END
