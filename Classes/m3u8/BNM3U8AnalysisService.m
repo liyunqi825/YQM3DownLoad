@@ -144,10 +144,15 @@ NSString *fullPerfixPath(NSString *rootPath,NSString *url){
             fileInfo.duration = [m3u8String subStringFrom:@"#EXTINF:" to:@","];
             m3u8String = [m3u8String subStringForm:@"," offset:1];
             fileInfo.oriUrlString = [[m3u8String subStringTo:@"#"] removeSpaceAndNewline];
-            if (![fileInfo.oriUrlString hasPrefix:@"http"]&&[OriUrlString rangeOfString:@"/"].length>0) {
-                NSMutableArray *ar=[[NSMutableArray alloc]initWithArray:[OriUrlString componentsSeparatedByString:@"/"]];
-                NSString *str=[OriUrlString stringByReplacingOccurrencesOfString:ar.lastObject withString:fileInfo.oriUrlString];
-                fileInfo.oriUrlString = str;
+            if (![fileInfo.oriUrlString hasPrefix:@"http"]) {
+                if ([fileInfo.oriUrlString hasPrefix:@"/"]) {
+                    NSURL *url=[[NSURL alloc]initWithString:OriUrlString];
+                    fileInfo.oriUrlString = [[NSString alloc]initWithFormat:@"%@://%@%@",url.scheme,url.host,fileInfo.oriUrlString];
+                }else{
+                    NSMutableArray *ar=[[NSMutableArray alloc]initWithArray:[OriUrlString componentsSeparatedByString:@"/"]];
+                    NSString *str=[OriUrlString stringByReplacingOccurrencesOfString:ar.lastObject withString:fileInfo.oriUrlString];
+                    fileInfo.oriUrlString = str;
+                }
             }
             NSRange exRange = [m3u8String rangeOfString:@"#EX"];
             NSRange discontinuityRange = [m3u8String rangeOfString:@"#EXT-X-DISCONTINUITY"];
