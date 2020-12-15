@@ -113,12 +113,17 @@ NSString *fullPerfixPath(NSString *rootPath,NSString *url){
     if (info.keyUri.length > 0) {
         ///加入到 fileInfos
         BNM3U8fileInfo *fileInfo = [BNM3U8fileInfo new];
-        fileInfo.oriUrlString = info.keyUri;
+        fileInfo.oriUrlString = info.keyUri ;
         fileInfo.index = - 1;
-        if (![fileInfo.oriUrlString hasPrefix:@"http"]&&[OriUrlString rangeOfString:@"/"].length>0) {
+        if (![fileInfo.oriUrlString hasPrefix:@"http"]) {
+            if ([fileInfo.oriUrlString hasPrefix:@"/"]) {
+                NSURL *url=[[NSURL alloc]initWithString:OriUrlString];
+                fileInfo.oriUrlString = [[NSString alloc]initWithFormat:@"%@://%@%@",url.scheme,url.host,fileInfo.oriUrlString];
+            }else{
                 NSMutableArray *ar=[[NSMutableArray alloc]initWithArray:[OriUrlString componentsSeparatedByString:@"/"]];
                 NSString *str=[OriUrlString stringByReplacingOccurrencesOfString:ar.lastObject withString:fileInfo.oriUrlString];
                 fileInfo.oriUrlString = str;
+            }
         }
         /* /md5(url)/keyName*/
         fileInfo.relativeUrl =  [NSString stringWithFormat:@"/%@/key",[BNTool uuidWithUrl:OriUrlString]];
